@@ -79,13 +79,22 @@
 		SELECT COUNT(*) CNT FROM BOARD
 			<trim prefix="WHERE" prefixOverrides="AND|OR">
 				<if test="searchWord != null and searchWorld neq ''">
-					TITLE LIKE #{searchWord}
-					OR CONTENT LIKE #{searchWord}
+					BOARD_TITLE like '%' || #{searchWord} || '%'
+					OR BOARD_CONTENT like '%' || #{searchWord} || '%'
+					OR BOARD_WRITER like '%' || #{searchWord} || '%'
 				</if>
 			</trim>
 	</select>
 	<select id="selectListid" resultMap="bvoMap">
-		SELECT * FROM BOARD ORDER BY BOARD_REF ASC, BOARD_REPLY_SEQ ASC
+		SELECT * FROM BOARD
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="searchword != null and searchWord neq ''">
+				BOARD_TITLE like '%' || #{searchWord} || '%'
+				OR BOARD_CONTENT like '%' || #{searchWord} || '%'
+				OR BOARD_WRITER like '%' || #{searchWord} || '%'
+			</if>
+		</trim>
+		ORDER BY BOARD_REF ASC, BOARD_REPLY_SEQ ASC
 	</select>
 	
 	<select id="tempCallable" statementType="CALLABLE" parameterType="bvo" resultType="bvo">
@@ -107,7 +116,9 @@
 	<delete id="tempForeachDelete">
 		DELETE FROM BOARD
 			<where>
-				1 = 0 OR
+			<![CDATA[
+				1 <> 1 OR
+			]]>
 				<foreach collection="list" item="bnum" open="borad_num in (" close=")" separator=",">
 					#{bnum}
 				</foreach>

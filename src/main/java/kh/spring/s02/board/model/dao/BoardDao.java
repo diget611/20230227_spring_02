@@ -42,6 +42,10 @@ public class BoardDao {
 		return sqlSession.selectOne("boardns.selectOneCount");
 	}
 	
+	public int selectOneCount(String searchWord) {
+		return sqlSession.selectOne("boardns.selectOneCount", searchWord);
+	}
+	
 	public List<BoardVo> selectList() {
 		return sqlSession.selectList("boardns.selectListid");
 	}
@@ -50,5 +54,9 @@ public class BoardDao {
 //		int offset = (currentPage - 1) * limit;
 //		RowBounds rb = new RowBounds(offset, limit);
 		return sqlSession.selectList("boardns.selectListid", null, new RowBounds((currentPage - 1) * limit, limit));
+	}
+
+	public List<BoardVo> selectList(int currentPage, int boardLimit, String searchWord) {
+		return sqlSession.selectList("boardns.selectListid", searchWord, new RowBounds((currentPage - 1) * boardLimit, boardLimit));
 	}
 }

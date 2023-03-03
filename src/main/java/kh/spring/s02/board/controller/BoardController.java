@@ -26,8 +26,13 @@ public class BoardController {
 	
 	@GetMapping("/list")
 	public ModelAndView viewListBoard(ModelAndView mv) {
-		int currentPage = 2;
-		int totalCnt = service.selectOneCount();
+		// TODO : 검색 단어는 제목, 내용, 작성자에 포함되어 있으면 찾기
+		// null 또는 ""은 검색하지 않음
+//		String searchWord = "";
+		String searchWord = null;
+//		String searchWord = "bb";
+		int currentPage = 1;
+		int totalCnt = service.selectOneCount(searchWord);
 		int totalPage = (totalCnt % BOARD_LIMIT == 0) ? (totalCnt / BOARD_LIMIT) : (totalCnt / BOARD_LIMIT) + 1;
 		int startPage = (currentPage % PAGE_LIMIT == 0) ? ((currentPage / PAGE_LIMIT) - 1) * PAGE_LIMIT + 1
 														: (currentPage / PAGE_LIMIT) * PAGE_LIMIT + 1;
@@ -39,10 +44,10 @@ public class BoardController {
 		map.put("start", startPage);
 		map.put("end", endPage);
 		
-		mv.addObject("list", service.selectList(currentPage, BOARD_LIMIT));
+		
+		mv.addObject("list", service.selectList(currentPage, BOARD_LIMIT, searchWord));
 		mv.addObject("paging", map);
 		mv.setViewName("board/list");
-		
 		
 		return mv;
 	}
