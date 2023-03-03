@@ -21,44 +21,59 @@ public class MemberController {
 	
 	@GetMapping("/signup")
 	public ModelAndView viewInsert(ModelAndView mv) {
+		mv.setViewName("member/signup");
 		return mv;
 	}
 	
-//	@PostMapping("/signup")
-	@GetMapping("/signupTest")
+	@PostMapping("/signup")
 	public ModelAndView insert(ModelAndView mv, MemberVo vo) {
-		vo.setId("idddd");
-		vo.setPasswd("passsss");
-		vo.setName("nameeee");
-		vo.setEmail("emaillll");
+		int result = service.insert(vo);
 		
-		service.insert(vo);
-		
+		if(result > 0) {
+			mv.setViewName("redirect:/");
+		} else {
+			mv.setViewName("redirect:signup");
+		}
 		return mv;
 	}
 	
 	@GetMapping("/update")
-	public ModelAndView viewUpdate(ModelAndView mv) {
+	public ModelAndView viewUpdate(ModelAndView mv, String id) {
+		MemberVo vo = service.selectOne(id);
+		mv.addObject("membervo", vo);
+		mv.setViewName("member/update");
 		return mv;
 	}
 	
 	@PostMapping("/update")
 	public ModelAndView update(ModelAndView mv, MemberVo vo) {
+		
+		int result = service.update(vo);
 		return mv;
 	}
 	
 	@GetMapping("/delete")
-	public ModelAndView delete(ModelAndView mv, String id) {
+	public ModelAndView delete(ModelAndView mv) {
+		String id = "idddd";
+		int result = service.delete(id);
 		return mv;
 	}
 	
 	@GetMapping("/info")
 	public ModelAndView selectOne(ModelAndView mv, String id) {
+		if(id == null) {
+			mv.setViewName("redirect:list");
+			return mv;
+		} else {
+			mv.addObject("info", service.selectOne(id));
+			mv.setViewName("member/info");
+		}
 		return mv;
 	}
 	
 	@GetMapping("/list")
 	public ModelAndView selectList(ModelAndView mv) {
+		List<MemberVo> result = service.selectList();
 		return mv;
 	}
 }

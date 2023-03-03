@@ -17,9 +17,9 @@
 		DELETE FROM TEST_MEMBER WHERE ID = #{id}
 	</delete>
 	<select id="selectOneId" parameterType="string" resultType="mvo">
-		SELECT * FROM TEST_BOARD WHERE ID = #{id}
+		SELECT * FROM TEST_MEMBER WHERE ID = #{id}
 	</select>
 	<select id="selectListId" resultMap="mMap">
-		SELECT * FROM TEST_BOARD
+		SELECT * FROM TEST_MEMBER
 	</select>
 </mapper>
