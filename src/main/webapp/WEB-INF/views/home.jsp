@@ -10,10 +10,15 @@
 	<P>The time on the server is ${serverTime}.</P>
 
 	<script>
-		var msg = "${msg}"
+		var msg = "${alerMsg}"
 		if (msg) {
 			alert(msg);
 		}
+		
+		var msg2 = "${msg}"
+			if (msg2) {
+				alert(msg2);
+			}
 	</script>
 </body>
 </html>

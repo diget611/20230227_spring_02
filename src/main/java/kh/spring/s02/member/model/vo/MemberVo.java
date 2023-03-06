@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MemberVo {
+	
+//	@Validated -> 유효성 체크
 	private String id;
 	private String passwd;
 	private String name;

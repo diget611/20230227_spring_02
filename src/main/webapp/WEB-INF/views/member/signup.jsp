@@ -14,5 +14,12 @@
 		<input type="text" name="email" placeholder="email"><br>
 		<button type="submit">제출</button>
 	</form>
+	
+	<script>
+		var msg2 = "${msg}"
+			if (msg2) {
+				alert(msg2);
+			}
+	</script>
 </body>
 </html>

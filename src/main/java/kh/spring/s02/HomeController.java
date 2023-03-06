@@ -35,7 +35,7 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate );
-		model.addAttribute("msg", req.getParameter("msg"));
+		model.addAttribute("alertMsg", req.getParameter("msg"));
 		
 		return "home";
 	}
