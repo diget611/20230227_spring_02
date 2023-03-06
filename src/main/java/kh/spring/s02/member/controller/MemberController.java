@@ -26,11 +26,11 @@ public class MemberController {
 	}
 	
 	@PostMapping("/signup")
-	public ModelAndView insert(ModelAndView mv, MemberVo vo) {
+	public ModelAndView insert(ModelAndView mv, MemberVo vo, String id, String email) {
 		int result = service.insert(vo);
 		
 		if(result > 0) {
-			mv.setViewName("redirect:/");
+			mv.setViewName("redirect:/?msg=성공");
 		} else {
 			mv.setViewName("redirect:signup");
 		}
