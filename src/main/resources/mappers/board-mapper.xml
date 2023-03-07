@@ -94,7 +94,7 @@
 				OR BOARD_WRITER like '%' || #{searchWord} || '%'
 			</if>
 		</trim>
-		ORDER BY BOARD_REF ASC, BOARD_REPLY_SEQ ASC
+		ORDER BY BOARD_REF DESC, BOARD_REPLY_SEQ ASC
 	</select>
 	
 	<select id="tempCallable" statementType="CALLABLE" parameterType="bvo" resultType="bvo">

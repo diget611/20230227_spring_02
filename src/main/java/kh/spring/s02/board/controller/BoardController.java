@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.spring.s02.board.model.service.BoardService;
@@ -105,10 +107,14 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public void viewReadBoard() {
-		int boardNum = 1;
+	public ModelAndView viewReadBoard(ModelAndView mv,
+			@RequestParam("boardNum") Integer boardNum) {
 		String writer = "user22";
 		BoardVo result = service.selectOne(boardNum, writer);
+		mv.addObject("board", result);
+		mv.setViewName("board/read");
+		
+		return mv;
 	}
 	
 	// 답글 작성
@@ -131,7 +137,19 @@ public class BoardController {
 		return mv;
 	}
 	
-	
+	@PostMapping("/insertReplyAjax")
+	@ResponseBody
+	public String insertReplyAjax(BoardVo vo) {
+//		int boardNum = 4;
+//		vo.setBoardNum(boardNum);
+//		vo.setBoardContent("4444답글");
+//		vo.setBoardTitle("4444답글");
+		vo.setBoardWriter("user11");
+		
+		service.insert(vo);
+		
+		return "ok";
+	}
 	
 	/*
 	 * do와 post를 한 번에 다 처리하는 방식

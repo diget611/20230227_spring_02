@@ -36,7 +36,7 @@ public class BoardServiceImpl implements BoardService {
 	public BoardVo selectOne(int boardNum, String writer) {
 //		작성자가 읽으면 조회수 증가가 안 되도록
 		BoardVo result = dao.selectOne(boardNum);
-		if(!result.getBoardWriter().equals(writer)) {
+		if(result != null && !result.getBoardWriter().equals(writer)) {
 			dao.updateReadCount(boardNum);
 		} 
 		return result;
