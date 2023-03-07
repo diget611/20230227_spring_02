@@ -96,6 +96,13 @@
 		</trim>
 		ORDER BY BOARD_REF DESC, BOARD_REPLY_SEQ ASC
 	</select>
+	<select id="selectReplyList" resultType="bvo">
+		SELECT * FROM BOARD
+		 WHERE BOARD_LEVEL > (SELECT BOARD_LEVEL FROM BOARD WHERE BOARD_NUM = #{boardNum})
+		   AND BOARD_REF = (SELECT BOARD_REF FROM BOARD WHERE BOARD_NUM = #{boardNum})
+		   AND BOARD_REPLY_SEQ > (SELECT BOARD_REPLY_SEQ FROM BOARD WHERE BOARD_NUM = #{boardNum})
+		 ORDER BY BOARD_REPLY_SEQ ASC
+	</select>
 	
 	<select id="tempCallable" statementType="CALLABLE" parameterType="bvo" resultType="bvo">
 	{

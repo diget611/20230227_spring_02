@@ -59,4 +59,8 @@ public class BoardDao {
 	public List<BoardVo> selectList(int currentPage, int boardLimit, String searchWord) {
 		return sqlSession.selectList("boardns.selectListid", searchWord, new RowBounds((currentPage - 1) * boardLimit, boardLimit));
 	}
+
+	public List<BoardVo> selectReplyList(int boardNum) {
+		return sqlSession.selectList("boardns.selectReplyList", boardNum);
+	}
 }

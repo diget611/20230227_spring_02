@@ -1,6 +1,7 @@
 package kh.spring.s02.board.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
 
 import kh.spring.s02.board.model.service.BoardService;
 import kh.spring.s02.board.model.vo.BoardVo;
@@ -112,6 +115,8 @@ public class BoardController {
 		String writer = "user22";
 		BoardVo result = service.selectOne(boardNum, writer);
 		mv.addObject("board", result);
+		List<BoardVo> replyList = service.selectReplyList(boardNum);
+		mv.addObject("reply", replyList);
 		mv.setViewName("board/read");
 		
 		return mv;
@@ -133,6 +138,7 @@ public class BoardController {
 		vo.setBoardTitle("4444답글");
 		vo.setBoardWriter("user11");
 		
+		
 		service.insert(vo);
 		return mv;
 	}
@@ -145,10 +151,17 @@ public class BoardController {
 //		vo.setBoardContent("4444답글");
 //		vo.setBoardTitle("4444답글");
 		vo.setBoardWriter("user11");
-		
+		// 답글 작성
 		service.insert(vo);
 		
-		return "ok";
+		// 연관 답글 조회해서 ajax로 return
+		List<BoardVo> replyList = service.selectReplyList(vo.getBoardNum());
+		
+		// ajax는 mv에 실려갈 수 없음
+		// mv.addObject("reply", replyList);
+		
+		
+		return new Gson().toJson(replyList);
 	}
 	
 	/*

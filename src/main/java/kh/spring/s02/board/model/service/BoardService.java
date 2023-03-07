@@ -17,4 +17,7 @@ public interface BoardService {
 	public List<BoardVo> selectList();	// 전체읽기
 	public List<BoardVo> selectList(int currentPage, int limit);	// paging 처리
 	public List<BoardVo> selectList(int currentPage, int boardLimit, String searchWord);
+	
+	public List<BoardVo> selectReplyList(int boardNum);	// 글의 답글 전체 읽기
+	public List<BoardVo> selectReplyList(int boardNum, int currentPage, int boardLimit);	// 글의 답글 전체 읽기
 }
