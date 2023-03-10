@@ -1,7 +1,8 @@
 # Compiled class file
 *.class
 build/
-*.properties
+target/
+properties/
 
 # Log file
 *.log
