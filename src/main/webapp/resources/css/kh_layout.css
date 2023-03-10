@@ -1,0 +1,50 @@
+@charset "UTF-8";
+*{
+	box-sizing: border-box;
+}
+
+.wrap.header {
+	background-color: beige;
+}
+
+.wrap.footer {
+	position: relative;
+	background-color: beige;
+}
+
+.wrap.footer > .btn.top {
+	position: absolute;
+	left: 10px;
+	top: 10px;
+}
+
+header {
+	width: 960px; margin: 0 auto;
+	border: 1px solid black;
+	padding: 20px;
+	box-sizing: border-box;
+	margin-bottom: 10px;
+	position: relative;
+	/* 자식에 absolute가 있으면 height 지정 필요 */
+	height: 200px;
+}
+
+section {
+	width: 960px; margin: 0 auto;
+	border: 1px solid black;
+	padding: 20px;
+	box-sizing: border-box;
+	margin-bottom: 10px;
+}
+
+aside {
+	
+}
+
+footer {
+	width: 960px; margin: 0 auto;
+	border: 1px solid black;
+	padding: 20px;
+	box-sizing: border-box;
+	margin-bottom: 10px;
+}

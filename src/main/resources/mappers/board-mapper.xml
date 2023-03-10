@@ -94,7 +94,7 @@
 				OR BOARD_WRITER like '%' || #{searchWord} || '%'
 			</if>
 		</trim>
-		ORDER BY BOARD_REF DESC, BOARD_REPLY_SEQ ASC
+		ORDER BY BOARD_REF DESC, BOARD_REPLY_SEQ DESC
 	</select>
 	<select id="selectReplyList" resultType="bvo">
 		SELECT * FROM BOARD
