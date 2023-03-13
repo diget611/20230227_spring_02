@@ -1,22 +1,31 @@
 package kh.spring.s02.board.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 
 import kh.spring.s02.board.model.service.BoardService;
 import kh.spring.s02.board.model.vo.BoardVo;
+import kh.spring.s02.common.file.FileUtil;
 //import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
@@ -69,13 +78,25 @@ public class BoardController {
 	}
 	
 //	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-//	@PostMapping("/insert")
-	@GetMapping("/inserttest")
-	public ModelAndView doInsertBoard(ModelAndView mv, BoardVo vo) {
-		vo.setBoardContent("111");
-		vo.setBoardTitle("111");
-		vo.setBoardWriter("user11");
+	@PostMapping("/insert")
+	public ModelAndView doInsertBoard(ModelAndView mv
+			, MultipartHttpServletRequest multiReq
+			, @RequestParam(name = "report", required = false) MultipartFile uploadFile
+			, BoardVo vo, HttpServletRequest request) {
+		System.out.println("file name : " + uploadFile.getOriginalFilename());
 		
+		Map<String, String> filePath;
+		List<Map<String, String>> fileListPath;
+		try {
+			fileListPath = new FileUtil().saveFileList(multiReq, request, null);
+			filePath = new FileUtil().saveFile(uploadFile, request, null);
+			vo.setBoardOriginalFilename(filePath.get("original"));
+			vo.setBoardRenameFilename(filePath.get("rename"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			
+		vo.setBoardWriter("user11");
 		int result = service.insert(vo);
 		return mv;
 	}
@@ -173,4 +194,7 @@ public class BoardController {
 	 * 		return mv;
 	 * }
 	 */
+	
+	// @ExceptionHandler
+		
 }

@@ -16,18 +16,9 @@
 	</properties>
 	<!-- repository 이 위치 추천 -->
 	<!-- mvn repository 외 다른 곳에서 repository를 가져올 때 -->
-<!-- 	<repositories>
-		<repository>
-			<id></id>
-			<url></url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories> -->
+	<!-- <repositories> <repository> <id></id> <url></url> <releases> <enabled>true</enabled> 
+		</releases> <snapshots> <enabled>false</enabled> </snapshots> </repository> 
+		</repositories> -->
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
@@ -183,6 +174,28 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.8.9</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.26</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- File Upload -->
+		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
 		</dependency>
 
 	</dependencies>

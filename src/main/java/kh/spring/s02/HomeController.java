@@ -45,7 +45,7 @@ public class HomeController {
 		model.addAttribute("serverTime", formattedDate );
 		model.addAttribute("alertMsg", req.getParameter("msg"));
 		
-		return "index";
+		return "home";
 	}
 	
 }
