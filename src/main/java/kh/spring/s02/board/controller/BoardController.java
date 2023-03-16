@@ -1,18 +1,16 @@
 package kh.spring.s02.board.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +32,9 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService service;
+	@Autowired
+	@Qualifier("fileUtil")
+	private FileUtil fileUtil;
 	
 	private final static int BOARD_LIMIT = 5;
 	private final static int PAGE_LIMIT = 3;
@@ -88,8 +89,8 @@ public class BoardController {
 		Map<String, String> filePath;
 		List<Map<String, String>> fileListPath;
 		try {
-			fileListPath = new FileUtil().saveFileList(multiReq, request, null);
-			filePath = new FileUtil().saveFile(uploadFile, request, null);
+			fileListPath = fileUtil.saveFileList(multiReq, request, null);
+			filePath = fileUtil.saveFile(uploadFile, request, null);
 			vo.setBoardOriginalFilename(filePath.get("original"));
 			vo.setBoardRenameFilename(filePath.get("rename"));
 		} catch (Exception e) {
@@ -130,9 +131,16 @@ public class BoardController {
 		int result = service.delete(boardNum);
 	}
 	
-	@GetMapping("/read")
+	// URL
+	// 1. /board/read?boardNum=27&replyPage=3
+	//		location.href = "board/read?boardNum=27&replyPage=3"
+	// 2. /board/read/27/3
+	//		location.href = "board/read/27/3"
+	@GetMapping("/read/{boardNum}")
 	public ModelAndView viewReadBoard(ModelAndView mv,
-			@RequestParam("boardNum") Integer boardNum) {
+			@PathVariable int boardNum,
+			@PathVariable int replyPage
+	/* @RequestParam("boardNum") Integer boardNum */) {
 		String writer = "user22";
 		BoardVo result = service.selectOne(boardNum, writer);
 		mv.addObject("board", result);
@@ -166,7 +174,14 @@ public class BoardController {
 	
 	@PostMapping("/insertReplyAjax")
 	@ResponseBody
-	public String insertReplyAjax(BoardVo vo) {
+	public String insertReplyAjax(BoardVo vo, MultipartFile report) {
+
+		if(report != null ) {
+			System.out.println("afijaweiofjoawiejfowefi" + report.getOriginalFilename());
+		} else {
+			System.out.println("파일 없음");
+		}
+		System.out.println("$$$$$$$$$$$$$$$$$$$$$$");
 //		int boardNum = 4;
 //		vo.setBoardNum(boardNum);
 //		vo.setBoardContent("4444답글");

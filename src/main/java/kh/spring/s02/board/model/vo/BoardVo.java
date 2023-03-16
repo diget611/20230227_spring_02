@@ -1,6 +1,7 @@
 package kh.spring.s02.board.model.vo;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -30,5 +31,7 @@ public class BoardVo {
 	private int boardRef;
 	private int boardReplySeq;
 	private int boardReadcount;
+	
+	private List<BoardFileVo> boardFileList;
 	
 }
