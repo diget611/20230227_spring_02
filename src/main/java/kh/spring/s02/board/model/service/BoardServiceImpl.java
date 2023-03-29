@@ -1,6 +1,8 @@
 package kh.spring.s02.board.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +20,16 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	@Transactional
 	public int insert(BoardVo vo) {
+		int seqBoardNum = dao.getSeqBoardNum();
 		if(vo.getBoardNum() != 0) {
 			dao.updateForReply(vo.getBoardNum());
 		}
-		return dao.insert(vo);			
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("bvo", vo);
+		map.put("seqBoardNum", seqBoardNum);
+		dao.insert(map);
+		return dao.insertFile(vo);			
 	}
 
 	@Override

@@ -33,7 +33,29 @@
 			<result column="RENAME_FILENAME" property="renameFilename"/>
 		</collection>
 	</resultMap>
-	
+	<!-- Sequence 사용 -->
+	<insert id="insertid" parameterType="hashmap">
+		INSERT INTO BOARD VALUES
+		(
+			SEQ_BOARD_NUM
+			, #{boardTitle}, #{boardWriter}, #{boardContent}
+			, #{boardOriginalFilename}, #{boardRenameFilename}, DEFAULT
+		<choose>
+			<when test="boardNum != 0">
+			, (SELECT BOARD_LEVEL + 1 FROM BOARD WHERE BOARD_NUM = #{boardNum})
+			, (SELECT BOARD_REF FROM BOARD WHERE BOARD_NUM = #{boardNum})
+			, (SELECT BOARD_REPLY_SEQ + 1 FROM BOARD WHERE BOARD_NUM = #{boardNum})
+			</when>
+			<otherwise>
+			, DEFAULT
+			, (SELECT NVL(MAX(BOARD_NUM), 0) + 1 FROM BOARD)
+			, DEFAULT
+			</otherwise>
+		</choose>
+			, DEFAULT
+		)
+	</insert>
+	<!-- 
 	<insert id="insertid" parameterType="bvo">
 		INSERT INTO BOARD VALUES
 		(
@@ -55,6 +77,7 @@
 			, DEFAULT
 		)
 	</insert>
+	 -->
 	<update id="updateid">
 		UPDATE BOARD SET
 		       BOARD_TITLE = #{boardTitle}
@@ -120,6 +143,14 @@
 		   AND BOARD_REF = (SELECT BOARD_REF FROM BOARD WHERE BOARD_NUM = #{boardNum})
 		   AND BOARD_REPLY_SEQ > (SELECT BOARD_REPLY_SEQ FROM BOARD WHERE BOARD_NUM = #{boardNum})
 		 ORDER BY BOARD_REPLY_SEQ ASC
+	</select>
+	
+	<insert id="insertFile" parameterType="bvo">
+		INSERT INTO BOARD_FILE VALUES(#{boardNum}, #{boardOriginalFilename}, #{boardRenameFilename})
+	</insert>
+	
+	<select id="getSeqBoradNum" resultType="_int">
+		SELECT SEQ_BOARD_NUM.NEXTVAL FROM DUAL
 	</select>
 	
 	<select id="tempCallable" statementType="CALLABLE" parameterType="bvo" resultType="bvo">

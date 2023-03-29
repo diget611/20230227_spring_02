@@ -1,6 +1,7 @@
 package kh.spring.s02.board.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -16,6 +17,18 @@ public class BoardDao {
 	
 	public int insert(BoardVo vo) {
 		return sqlSession.insert("boardns.insertid", vo);
+	}
+	
+	public int insert(Map<String, Object> map) {
+		return sqlSession.insert("boardns.insertid", map);
+	}
+
+	public int insertFile(BoardVo vo) {
+		return sqlSession.insert("boardns.insertFile", vo);
+	}
+	
+	public int getSeqBoardNum() {
+		return sqlSession.selectOne("boardns.getSeqBoardNum");
 	}
 	
 	public int update(BoardVo vo) {

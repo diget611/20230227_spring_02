@@ -31,6 +31,7 @@ public class MemberController {
 	
 	@PostMapping("/signup")
 	public ModelAndView insert(ModelAndView mv, MemberVo vo, RedirectAttributes rttr) throws Exception {
+		System.out.println(vo);
 		int result = -1;
 //		try {
 			result = service.insert(vo);
